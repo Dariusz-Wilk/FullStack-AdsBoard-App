@@ -1,12 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const connectToDB = require('./db');
 
 // start express server
 const app = express();
 const server = app.listen(process.env.PORT || 8000, () => {
 	console.log('Server is running...');
 });
+
+// Connect to DB
+connectToDB();
 
 //add standard middleware
 app.use(cors());
