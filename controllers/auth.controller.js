@@ -59,14 +59,6 @@ exports.login = async (req, res) => {
 	}
 };
 
-exports.getUser = async (req, res) => {
-	try {
-		if (req.session.login) {
-			res.send({ login: req.session.login });
-		} else {
-			res.status(401).send('You are not authorised');
-		}
-	} catch (err) {
-		res.send({ message: err });
-	}
+exports.getUser = (req, res) => {
+	res.send({ message: 'Yeah, you`ve logged' });
 };
