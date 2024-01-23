@@ -1,5 +1,6 @@
 const User = require('../models/User.model');
 const bcrypt = require('bcryptjs');
+const Session = require('../models/Session.model');
 
 exports.register = async (req, res) => {
 	try {
@@ -46,7 +47,7 @@ exports.login = async (req, res) => {
 					.status(409)
 					.send({ message: 'Login or password are incorrect' });
 			} else {
-				req.session.login = user.login;
+				req.session.user = { login: user.login, id: user._id };
 				res
 					.status(200)
 					.json({ message: 'Login successfully', login: user.login });
@@ -60,5 +61,19 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-	res.send({ message: 'Yeah, you`ve logged' });
+	res.send({ message: 'Yeah, you`ve logged', user: req.session.user.login });
+};
+
+exports.logout = async (req, res) => {
+	try {
+		if (process.env.NODE_ENV !== 'production') {
+			await Session.deleteMany({});
+			res.send({ message: 'Session expired / you`ve log out' });
+		} else {
+			req.session.destroy();
+			res.send("Yeah, You've just logged out");
+		}
+	} catch (err) {
+		res.status(500).send({ message: err.message });
+	}
 };

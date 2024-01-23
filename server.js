@@ -5,6 +5,7 @@ const connectToDB = require('./db');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 // start express server
 const app = express();
@@ -18,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
 	session({
-		secret: 'qwerty987',
+		secret: process.env.SESSION_SECRET,
 		store: MongoStore.create(mongoose.connection),
 		resave: false,
 		saveUninitialized: false,
