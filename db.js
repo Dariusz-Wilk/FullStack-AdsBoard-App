@@ -2,10 +2,7 @@ const mongoose = require('mongoose');
 
 const connectToDB = () => {
 	// connect to DB
-	mongoose.connect('mongodb://127.0.0.1:27017/adsBoardDB', {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-	});
+	mongoose.connect('mongodb://127.0.0.1:27017/adsBoardDB');
 
 	const db = mongoose.connection;
 

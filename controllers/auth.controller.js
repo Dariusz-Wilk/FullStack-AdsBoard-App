@@ -45,12 +45,28 @@ exports.login = async (req, res) => {
 				return res
 					.status(409)
 					.send({ message: 'Login or password are incorrect' });
+			} else {
+				req.session.login = user.login;
+				res
+					.status(200)
+					.json({ message: 'Login successfully', login: user.login });
 			}
-			return res.status(200).json({ message: 'Login successfully' });
 		} else {
 			return res.status(400).send({ message: 'Wrong data / Bad request' });
 		}
 	} catch (err) {
 		return res.status(500).json({ message: err.message });
+	}
+};
+
+exports.getUser = async (req, res) => {
+	try {
+		if (req.session.login) {
+			res.send({ login: req.session.login });
+		} else {
+			res.status(401).send('You are not authorised');
+		}
+	} catch (err) {
+		res.send({ message: err });
 	}
 };
