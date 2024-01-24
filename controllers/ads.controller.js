@@ -84,3 +84,18 @@ exports.deleteAd = async (req, res) => {
 		res.status(500).json({ message: err });
 	}
 };
+
+exports.searchAd = async (rec, res) => {
+	try {
+		const ad = await Ad.find({
+			title: { $regex: new RegExp(rec.params.searchPhrase), $options: 'i' },
+		});
+		if (!ad) {
+			res.status(404).json({ message: 'Ad Not Found' });
+		} else {
+			res.json(ad);
+		}
+	} catch (err) {
+		res.status(500).json({ message: err });
+	}
+};
