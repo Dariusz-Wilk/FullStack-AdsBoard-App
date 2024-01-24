@@ -1,5 +1,6 @@
 const Ad = require('../models/Ad.model');
 const sanitizeHtml = require('sanitize-html');
+const fs = require('fs');
 
 exports.getAllAds = async (req, res) => {
 	try {
@@ -29,7 +30,7 @@ exports.addNewAd = async (req, res) => {
 			title: title,
 			content: content,
 			publishDate: publishDate,
-			imagr: image,
+			image: image,
 			price: price,
 			location: location,
 			user: user,
@@ -46,26 +47,32 @@ exports.editAdById = async (req, res) => {
 	try {
 		const adToEdit = await Ad.findById(req.params.id);
 		if (!adToEdit) {
-			res.status(404).json({ message: 'Could not find ad to edit' });
-		} else {
-			const { title, content, publishDate, image, price, location, user } =
-				req.body;
-			const editedAd = await Ad.updateOne(
-				{ _id: req.params.id },
-				{
-					$set: {
-						title: title,
-						content: content,
-						publishDate: publishDate,
-						imagr: image,
-						price: price,
-						location: location,
-						user: user,
-					},
-				}
-			);
-			res.json(editedAd);
+			return res.status(404).json({ message: 'Could not find ad to edit' });
 		}
+
+		const { title, content, publishDate, price, location, user } = req.body;
+		let newImage = req.file ? req.file.filename : adToEdit.image;
+
+		if (req.file) {
+			fs.unlinkSync(`./public/uploads/${adToEdit.image}`);
+		}
+
+		const editedAd = await Ad.updateOne(
+			{ _id: req.params.id },
+			{
+				$set: {
+					title: title,
+					content: content,
+					publishDate: publishDate,
+					image: newImage,
+					price: price,
+					location: location,
+					user: user,
+				},
+			}
+		);
+
+		res.json(editedAd);
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
