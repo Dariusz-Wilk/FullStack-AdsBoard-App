@@ -3,7 +3,10 @@
 	"version": "1.0.0",
 	"main": "index.js",
 	"scripts": {
-		"start": "nodemon server.js"
+		"start": "npm-run-all -l -p start:*",
+		"start:server": "nodemon server.js",
+		"start:client": "cd client && yarn start",
+		"build": "cd client && yarn install && yarn build"
 	},
 	"author": "Dariusz Wilk",
 	"license": "MIT",
