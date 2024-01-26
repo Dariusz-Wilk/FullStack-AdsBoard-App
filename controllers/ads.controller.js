@@ -1,6 +1,8 @@
 const Ad = require('../models/Ad.model');
+const User = require('../models/User.model');
 const sanitizeHtml = require('sanitize-html');
 const fs = require('fs');
+const getImageFileType = require('../utils/getImageFileType');
 
 exports.getAllAds = async (req, res) => {
 	try {
@@ -23,21 +25,46 @@ exports.getAdById = async (req, res) => {
 
 exports.addNewAd = async (req, res) => {
 	try {
-		const { title, content, publishDate, image, price, location, user } =
-			req.body;
+		const { title, content, publishDate, price, location, user } = req.body;
+		const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
-		const newAd = new Ad({
-			title: title,
-			content: content,
-			publishDate: publishDate,
-			image: image,
-			price: price,
-			location: location,
-			user: user,
-		});
+		if (
+			title &&
+			typeof title === 'string' &&
+			content &&
+			typeof content === 'string' &&
+			publishDate &&
+			typeof publishDate === 'string' &&
+			price &&
+			typeof price === 'string' &&
+			location &&
+			typeof location === 'string' &&
+			req.file &&
+			['image/png', 'image/gif', 'image/jpeg'].includes(fileType)
+		) {
+			const existingUser = await User.findOne({ _id: user });
 
-		await newAd.save();
-		res.json({ message: 'New Ad has been added' });
+			if (!existingUser) {
+				res.status(404).json({ message: 'User not found' });
+				return;
+			}
+			const newAd = await Ad.create({
+				title: title,
+				content: content,
+				publishDate: publishDate,
+				price: parseFloat(price),
+				location: location,
+				user: user,
+				image: req.file.filename,
+			});
+
+			res.status(201).json({ message: 'New Ad has been added: ' + newAd });
+		} else {
+			if (req.file) {
+				fs.unlinkSync(`./public/uploads/${req.file.filename}`);
+				res.status(400).send({ message: 'Bad request' });
+			}
+		}
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}
