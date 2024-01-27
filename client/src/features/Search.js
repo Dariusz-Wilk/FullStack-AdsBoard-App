@@ -9,7 +9,7 @@ const Search = () => {
 		window.location.href = `/ad/search/${searchPhrase}`;
 	};
 	return (
-		<div className="d-flex justify-content-center mt-3 ">
+		<div className="d-flex justify-content-center mt-3 mb-5 ">
 			<div>
 				<InputGroup className="">
 					<Form.Control

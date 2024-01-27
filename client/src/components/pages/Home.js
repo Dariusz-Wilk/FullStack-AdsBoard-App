@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { updateAds } from '../../redux/adsRedux';
 import { API_URL } from '../../config';
 import Search from '../../features/Search';
+import AllAds from '../../features/AllAds';
 
 const Home = () => {
 	const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const Home = () => {
 	return (
 		<div className="home">
 			<Search />
-			<p>Home...</p>
+			<AllAds />
 		</div>
 	);
 };
