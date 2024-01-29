@@ -14,7 +14,7 @@ const AdSmallCard = ({
 	_id,
 }) => {
 	return (
-		<Card style={{ width: '29%', margin: '2%' }}>
+		<Card style={{ width: '30%', margin: '1.5%' }}>
 			<Card.Img
 				className={styles.cardImage}
 				variant="top"

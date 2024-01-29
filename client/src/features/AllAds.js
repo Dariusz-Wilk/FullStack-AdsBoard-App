@@ -6,11 +6,11 @@ const AllAds = () => {
 	const ads = useSelector(getAllAds);
 
 	return (
-		<ul className="d-flex flex-wrap justify-content-between p-0 my-4">
+		<div className="d-flex flex-wrap justify-content-start p-0 my-4 ms-auto">
 			{ads.map(ad => (
 				<AdSmallCard key={ad._id} {...ad} />
 			))}
-		</ul>
+		</div>
 	);
 };
 
