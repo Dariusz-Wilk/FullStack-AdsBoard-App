@@ -35,8 +35,10 @@ exports.register = async (req, res) => {
 			});
 			res.status(200).json({ message: 'User added: ' + user.login });
 		} else {
-			fs.unlinkSync(`./public/uploads/${req.file.filename}`);
-			res.status(400).send('Wrong data / Bad request');
+			if (req.file) {
+				fs.unlinkSync(`./public/uploads/${req.file.filename}`);
+			}
+			res.status(400).json({ message: 'Wrong data / Bad request' });
 		}
 	} catch (err) {
 		res.status(500).json({ message: err.message });

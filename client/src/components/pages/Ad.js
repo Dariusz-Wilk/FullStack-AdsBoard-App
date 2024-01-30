@@ -7,6 +7,7 @@ import { Card, Col } from 'react-bootstrap';
 const Ad = () => {
 	const { id } = useParams();
 	const adData = useSelector(state => getAdById(state, id));
+	console.log(adData);
 
 	if (!adData) return <Navigate to={'/'} />;
 	return (

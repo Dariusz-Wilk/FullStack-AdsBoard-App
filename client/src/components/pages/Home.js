@@ -10,7 +10,7 @@ const Home = () => {
 
 	const fetchAds = async () => {
 		try {
-			const res = await fetch(`${API_URL}/ads`);
+			const res = await fetch(`${API_URL}/api/ads`);
 			const data = await res.json();
 			console.log(data);
 			dispatch(updateAds(data));
