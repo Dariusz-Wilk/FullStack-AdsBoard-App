@@ -13,8 +13,28 @@ import { Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import NavBar from './views/Navbar';
 import Footer from './views/Footer';
+import { API_URL } from './config';
+import { useDispatch } from 'react-redux';
+import { logIn } from './redux/usersRedux';
 
 const App = () => {
+	const dispatch = useDispatch();
+
+	fetch(`${API_URL}/auth/user`)
+		.then(res => {
+			if (res.status === 200) {
+				return res.json();
+			} else {
+				throw new Error('Failed');
+			}
+		})
+		.then(data => {
+			dispatch(logIn({ login: data.user }));
+		})
+		.catch(e => {
+			console.log(e);
+		});
+
 	return (
 		<main>
 			<NavBar />
