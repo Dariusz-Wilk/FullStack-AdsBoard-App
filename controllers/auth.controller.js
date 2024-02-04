@@ -86,13 +86,13 @@ exports.getUser = (req, res) => {
 
 exports.logout = async (req, res) => {
 	try {
-		if (process.env.NODE_ENV !== 'production') {
-			await Session.deleteMany({});
-			res.send({ message: 'Session expired / you`ve log out' });
-		} else {
-			req.session.destroy();
-			res.send("Yeah, You've just logged out");
-		}
+		// if (process.env.NODE_ENV !== 'production') {
+		// 	await Session.deleteMany({});
+		// 	res.send({ message: 'Session expired / you`ve log out' });
+		// } else {
+		req.session.destroy();
+		res.send("Yeah, You've just logged out");
+		// }
 	} catch (err) {
 		res.status(500).send({ message: err.message });
 	}

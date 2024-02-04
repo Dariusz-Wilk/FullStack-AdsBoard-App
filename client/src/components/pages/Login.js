@@ -29,22 +29,26 @@ const Login = () => {
 		fetch(`${API_URL}/auth/login`, options)
 			.then(res => {
 				if (res.status === 200) {
-					setStatus('success');
-					fetch(`${API_URL}/auth/user`)
-						.then(res => {
-							if (res.status === 200) {
-								return res.json();
-							} else {
-								throw new Error('Failed');
-							}
-						})
-						.then(data => {
-							dispatch(logIn({ login: data.user, id: data.id }));
-							console.log(data);
-						})
-						.catch(e => {
-							console.log(e);
-						});
+					setStatus('loading');
+					setTimeout(() => {
+						setStatus('success');
+						fetch(`${API_URL}/auth/user`)
+							.then(res => {
+								console.log(res);
+								if (res.status === 200) {
+									return res.json();
+								} else {
+									throw new Error('Failed');
+								}
+							})
+							.then(data => {
+								dispatch(logIn({ login: data.user, id: data.id }));
+								console.log(data);
+							})
+							.catch(e => {
+								console.log(e);
+							});
+					}, 400);
 					setTimeout(() => {
 						navigate('/');
 					}, 3000);
