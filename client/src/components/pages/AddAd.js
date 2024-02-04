@@ -1,7 +1,10 @@
+import AdForm from '../../features/AdForm';
+
 const AddAd = () => {
 	return (
 		<div>
-			<p>AddAd...</p>
+			<p className="text-center">AddAd</p>
+			<AdForm />
 		</div>
 	);
 };

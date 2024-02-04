@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useParams, Link, Navigate } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import { getAdById } from '../../redux/adsRedux';
 import { IMG_URL } from '../../config';
 import { Card, Col } from 'react-bootstrap';
@@ -31,7 +31,7 @@ const Ad = () => {
 							<h5>Seller info</h5>
 
 							<p>Seller: {adData.user.login}</p>
-							<p>Phone number: {adData.user.phone}</p>
+							<p>Phone number: {adData.user.phoneNumber}</p>
 						</Card.Body>
 					</Card>
 				</Col>

@@ -62,9 +62,11 @@ exports.login = async (req, res) => {
 					.send({ message: 'Login or password are incorrect' });
 			} else {
 				req.session.user = { login: user.login, id: user._id };
-				res
-					.status(200)
-					.json({ message: 'Login successfully', login: user.login });
+				res.status(200).json({
+					message: 'Login successfully',
+					login: user.login,
+					id: user._id,
+				});
 			}
 		} else {
 			return res.status(400).send({ message: 'Wrong data / Bad request' });
@@ -75,7 +77,11 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = (req, res) => {
-	res.send({ message: 'Yeah, you`ve logged', user: req.session.user.login });
+	res.send({
+		message: 'Yeah, you`ve logged',
+		user: req.session.user.login,
+		id: req.session.user.id,
+	});
 };
 
 exports.logout = async (req, res) => {

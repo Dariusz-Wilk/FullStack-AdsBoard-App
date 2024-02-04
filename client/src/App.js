@@ -9,6 +9,9 @@ import Logout from './components/pages/Logout';
 import NotFound from './components/pages/NotFound';
 import SearchResults from './components/pages/SearchResults';
 
+import { fetchAds } from './redux/adsRedux';
+import { useEffect } from 'react';
+
 import { Routes, Route } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import NavBar from './views/Navbar';
@@ -20,6 +23,15 @@ import { logIn } from './redux/usersRedux';
 const App = () => {
 	const dispatch = useDispatch();
 
+	// const options = {
+	// 	method: 'GET',
+	// 	credentials: 'include',
+	// };
+
+	useEffect(() => {
+		dispatch(fetchAds());
+	}, [dispatch]);
+
 	fetch(`${API_URL}/auth/user`)
 		.then(res => {
 			if (res.status === 200) {
@@ -29,7 +41,8 @@ const App = () => {
 			}
 		})
 		.then(data => {
-			dispatch(logIn({ login: data.user }));
+			dispatch(logIn({ login: data.user, id: data.id }));
+			console.log(data);
 		})
 		.catch(e => {
 			console.log(e);

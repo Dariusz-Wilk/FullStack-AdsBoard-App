@@ -27,9 +27,14 @@ const NavBar = () => {
 						</>
 					)}
 					{loggedUser && (
-						<Nav.Link as={NavLink} to="/logout">
-							Logout
-						</Nav.Link>
+						<>
+							<Nav.Link as={NavLink} to="/ad/add">
+								New Ad
+							</Nav.Link>
+							<Nav.Link as={NavLink} to="/logout">
+								Logout
+							</Nav.Link>
+						</>
 					)}
 				</Nav>
 			</Container>

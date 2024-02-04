@@ -14,7 +14,7 @@ const authMiddleware = async (req, res, next) => {
 			const sessionData = JSON.parse(sessionRecord.session);
 
 			req.session.user = {
-				id: sessionRecord._id,
+				id: sessionData.user.id,
 				login: sessionData.user.login,
 			};
 
