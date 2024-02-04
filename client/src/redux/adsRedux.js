@@ -7,9 +7,11 @@ export const getAdById = ({ ads }, id) => ads.find(ad => ad._id === id);
 //actions
 const createActionName = actionName => `app/ads/${actionName}`;
 const DATA_ADS = createActionName('DATA_ADS');
+const ADD_AD = createActionName('ADD_ADS');
 
 //action creators
 export const updateAds = payload => ({ type: DATA_ADS, payload });
+export const addAd = payload => ({ type: ADD_AD, payload });
 
 export const fetchAds = () => {
 	return async dispatch => {
@@ -27,6 +29,8 @@ const adsReducer = (statePart = [], action) => {
 	switch (action.type) {
 		case DATA_ADS:
 			return [...action.payload];
+		case ADD_AD:
+			return [...statePart, { ...action.payload }];
 		default:
 			return statePart;
 	}

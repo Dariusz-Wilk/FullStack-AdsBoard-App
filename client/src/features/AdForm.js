@@ -1,11 +1,12 @@
 import { Form, Button, Alert, Spinner } from 'react-bootstrap';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { getLoggedUser } from '../redux/usersRedux';
+import { fetchAds } from '../redux/adsRedux';
 
 const AdForm = () => {
 	const navigate = useNavigate();
@@ -19,6 +20,8 @@ const AdForm = () => {
 
 	const user = useSelector(getLoggedUser);
 	console.log(user);
+
+	const dispatch = useDispatch();
 
 	const handleSubmit = e => {
 		e.preventDefault();
@@ -44,6 +47,7 @@ const AdForm = () => {
 				if (res.status === 201) {
 					setStatus('success');
 					navigate('/');
+					dispatch(fetchAds());
 				} else if (res.status === 400) {
 					setStatus('clientError');
 				} else if (res.status === 401) {

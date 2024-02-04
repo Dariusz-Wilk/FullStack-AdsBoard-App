@@ -3,9 +3,9 @@ import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
 import { API_URL } from '../../config';
 import { Alert, Spinner } from 'react-bootstrap';
-import { logIn } from '../../redux/usersRedux';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { logIn } from '../../redux/usersRedux';
 
 const Login = () => {
 	const [login, setLogin] = useState('');
@@ -30,7 +30,21 @@ const Login = () => {
 			.then(res => {
 				if (res.status === 200) {
 					setStatus('success');
-					dispatch(logIn({ login }));
+					fetch(`${API_URL}/auth/user`)
+						.then(res => {
+							if (res.status === 200) {
+								return res.json();
+							} else {
+								throw new Error('Failed');
+							}
+						})
+						.then(data => {
+							dispatch(logIn({ login: data.user, id: data.id }));
+							console.log(data);
+						})
+						.catch(e => {
+							console.log(e);
+						});
 					setTimeout(() => {
 						navigate('/');
 					}, 3000);
@@ -46,6 +60,7 @@ const Login = () => {
 				setStatus('serverError');
 			});
 	};
+
 	return (
 		<Form className="col-12 col-sm-4 mx-auto" onSubmit={handleSubmit}>
 			<h1 className="my-4 text-center">Log in</h1>
