@@ -112,6 +112,7 @@ exports.deleteAd = async (req, res) => {
 			res.status(404).json({ message: 'Ad Not Found' });
 		} else {
 			await Ad.deleteOne({ _id: req.params.id });
+			fs.unlinkSync(`./public/uploads/${ad.image}`);
 			res.json({ message: 'Ad has been deleted' });
 		}
 	} catch (err) {
