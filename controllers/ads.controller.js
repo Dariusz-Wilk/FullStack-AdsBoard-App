@@ -107,7 +107,7 @@ exports.editAdById = async (req, res) => {
 
 exports.deleteAd = async (req, res) => {
 	try {
-		const ad = await Ad.findById(rea.params.id);
+		const ad = await Ad.findById(req.params.id);
 		if (!ad) {
 			res.status(404).json({ message: 'Ad Not Found' });
 		} else {
