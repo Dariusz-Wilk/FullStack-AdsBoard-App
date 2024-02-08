@@ -49,22 +49,27 @@ const App = () => {
 		});
 
 	return (
-		<main>
-			<NavBar />
-			<Container>
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/ad/:id" element={<Ad />} />
-					<Route path="/ad/add" element={<AddAd />} />
-					<Route path="/ad/edit/:id" element={<EditAd />} />
-					<Route path="/ad/search/:searchPhrase" element={<SearchResults />} />
-					<Route path="/register" element={<Register />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/user" element={<User />} />
-					<Route path="/logout" element={<Logout />} />
-					<Route path="*" element={<NotFound />} />
-				</Routes>
-			</Container>
+		<main className="d-flex flex-column vh-100 justify-content-between ">
+			<div className="contentPage">
+				<NavBar />
+				<Container>
+					<Routes>
+						<Route path="/" element={<Home />} />
+						<Route path="/ad/:id" element={<Ad />} />
+						<Route path="/ad/add" element={<AddAd />} />
+						<Route path="/ad/edit/:id" element={<EditAd />} />
+						<Route
+							path="/ad/search/:searchPhrase"
+							element={<SearchResults />}
+						/>
+						<Route path="/register" element={<Register />} />
+						<Route path="/login" element={<Login />} />
+						<Route path="/user" element={<User />} />
+						<Route path="/logout" element={<Logout />} />
+						<Route path="*" element={<NotFound />} />
+					</Routes>
+				</Container>
+			</div>
 			<Footer />
 		</main>
 	);

@@ -13,7 +13,7 @@ import { removeAd } from '../../redux/adsRedux';
 const Ad = () => {
 	const { id } = useParams();
 	const adData = useSelector(state => getAdById(state, id));
-	const LoggedUser = useSelector(getLoggedUser);
+	const loggedUser = useSelector(getLoggedUser);
 
 	const [show, setShow] = useState(false);
 
@@ -38,7 +38,7 @@ const Ad = () => {
 	};
 
 	console.log(adData);
-	console.log(LoggedUser);
+	console.log(loggedUser);
 
 	if (!adData) return <Navigate to={'/'} />;
 	return (
@@ -64,7 +64,7 @@ const Ad = () => {
 							<p>Seller: {adData.user.login}</p>
 							<p>Phone number: {adData.user.phoneNumber}</p>
 
-							{LoggedUser.login === adData.user.login && (
+							{loggedUser?.login === adData.user.login && (
 								<div className="d-flex justify-content-between">
 									<Link to={`/ad/edit/${id}`}>
 										<Button variant="outline-success m-1">Edit ad</Button>

@@ -84,7 +84,7 @@ exports.editAdById = async (req, res) => {
 			fs.unlinkSync(`./public/uploads/${adToEdit.image}`);
 		}
 
-		const editedAd = await Ad.updateOne(
+		await Ad.updateOne(
 			{ _id: req.params.id },
 			{
 				$set: {
@@ -99,7 +99,7 @@ exports.editAdById = async (req, res) => {
 			}
 		);
 
-		res.json(editedAd);
+		res.status(201).send({ message: 'Ad updated' });
 	} catch (err) {
 		res.status(500).json({ message: err });
 	}

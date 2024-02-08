@@ -9,7 +9,6 @@ exports.register = async (req, res) => {
 		const { login, password, phoneNumber } = req.body;
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
-		console.log(req.body, req.file);
 		if (
 			login &&
 			typeof login === 'string' &&
