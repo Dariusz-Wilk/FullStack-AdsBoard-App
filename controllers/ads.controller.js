@@ -28,6 +28,7 @@ exports.addNewAd = async (req, res) => {
 		const { title, content, publishDate, price, location, user } = req.body;
 		const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
 
+		console.log(req.body);
 		if (
 			title &&
 			typeof title === 'string' &&
@@ -72,33 +73,29 @@ exports.addNewAd = async (req, res) => {
 
 exports.editAdById = async (req, res) => {
 	try {
+		console.log(req.body);
+		const { title, content, publishDate, price, location, user } = req.body;
 		const adToEdit = await Ad.findById(req.params.id);
 		if (!adToEdit) {
 			return res.status(404).json({ message: 'Could not find ad to edit' });
 		}
-
-		const { title, content, publishDate, price, location, user } = req.body;
 		let newImage = req.file ? req.file.filename : adToEdit.image;
 
 		if (req.file) {
 			fs.unlinkSync(`./public/uploads/${adToEdit.image}`);
 		}
 
-		await Ad.updateOne(
-			{ _id: req.params.id },
-			{
-				$set: {
-					title: title,
-					content: content,
-					publishDate: publishDate,
-					image: newImage,
-					price: price,
-					location: location,
-					user: user,
-				},
-			}
-		);
+		console.log(req.body);
 
+		const testUpdate = await Ad.findByIdAndUpdate(req.params.id, {
+			title: title,
+			content: content,
+			publishDate: publishDate,
+			image: newImage,
+			price: price,
+			location: location,
+			user: user,
+		});
 		res.status(201).send({ message: 'Ad updated' });
 	} catch (err) {
 		res.status(500).json({ message: err });

@@ -10,6 +10,8 @@ import { fetchAds } from '../redux/adsRedux';
 import { Alert, Form, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 
+import { getLoggedUser } from '../redux/usersRedux';
+
 const AdEditForm = () => {
 	const [status, setStatus] = useState('');
 	const { id } = useParams();
@@ -26,14 +28,18 @@ const AdEditForm = () => {
 	const [location, setLocation] = useState(adData.location || '');
 	const [image, setImage] = useState(adData.image || null);
 
-	const handleEdit = ad => {
+	const user = useSelector(getLoggedUser);
+
+	const handleSubmit = e => {
+		e.preventDefault();
 		const fd = new FormData();
-		fd.append('title', ad.title);
-		fd.append('content', ad.content);
-		fd.append('price', ad.price);
-		fd.append('location', ad.location);
-		fd.append('image', ad.image);
-		fd.append('publishDate', ad.publishDate);
+		fd.append('title', title);
+		fd.append('content', content);
+		fd.append('price', price);
+		fd.append('location', location);
+		fd.append('image', image);
+		fd.append('publishDate', publishDate);
+		fd.append('user', user.id);
 
 		const options = {
 			method: 'PUT',
@@ -44,28 +50,18 @@ const AdEditForm = () => {
 
 		fetch(`${API_URL}/api/ads/${id}`, options)
 			.then(res => {
-				console.log('Response:', res);
-				return res.json();
-			})
-			.then(data => {
-				console.log(data);
+				if (res.status === 201) {
+					console.log('Response:', res);
+					navigate('/');
+					dispatch(fetchAds());
+				} else {
+					throw new Error('Something went wrong! :(');
+				}
 			})
 			.catch(err => {
 				setStatus('serverError');
 				console.error('Fetch error:', err);
 			});
-	};
-
-	const handleSubmit = e => {
-		e.preventDefault();
-		handleEdit({
-			title,
-			content,
-			price,
-			publishDate,
-			location,
-			image,
-		});
 	};
 
 	if (!adData) return <Navigate to="/" />;
@@ -94,7 +90,6 @@ const AdEditForm = () => {
 					<p>Unexpected error... Try again!</p>
 				</Alert>
 			)}
-			{/* <EditForm actionText="Edit ad" action={handleEdit} {...adData} /> */}
 
 			<div style={{ width: '70%' }} className="m-auto">
 				<Form onSubmit={handleSubmit}>
@@ -109,7 +104,7 @@ const AdEditForm = () => {
 					</Form.Group>
 
 					<Form.Group className="mb-3" controlId="formPassword">
-						<Form.Label>Content if the ad</Form.Label>
+						<Form.Label>Content of the ad</Form.Label>
 						<Form.Control
 							as="textarea"
 							value={content}
@@ -149,7 +144,6 @@ const AdEditForm = () => {
 						<Form.Label>Image</Form.Label>
 						<Form.Control
 							type="file"
-							value={adData.image.name}
 							onChange={e => setImage(e.target.files[0])}
 						/>
 					</Form.Group>
