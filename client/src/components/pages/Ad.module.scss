@@ -1,0 +1,15 @@
+.carImg {
+	max-height: 250px;
+	object-fit: cover;
+	object-position: center;
+}
+
+.seller {
+	display: flex;
+	img {
+		height: 30px;
+		width: 30px;
+		object-fit: cover;
+		border-radius: 50%;
+	}
+}

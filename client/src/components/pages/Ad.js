@@ -9,6 +9,14 @@ import { useState } from 'react';
 import { API_URL } from '../../config';
 import { useNavigate } from 'react-router-dom';
 import { removeAd } from '../../redux/adsRedux';
+import styles from './Ad.module.scss';
+
+import { format } from 'date-fns';
+
+const dateString = 'Tue Feb 06 2024 10:04:00 GMT+0100';
+const date = new Date(dateString);
+const formattedDate = format(date, 'dd.MM.yyyy HH:mm:ss');
+console.log(formattedDate); // "06.02.2024 10:04:00"
 
 const Ad = () => {
 	const { id } = useParams();
@@ -47,7 +55,11 @@ const Ad = () => {
 				<Col className="py-4 col-12 col-sm-6 col-lg-6">
 					<Card>
 						<Card.Title className="text-center p-2">{adData.title}</Card.Title>
-						<Card.Img variant="top" src={IMG_URL + adData.image} />
+						<Card.Img
+							className={styles.carImg}
+							variant="top"
+							src={IMG_URL + adData.image}
+						/>
 						<Card.Body>
 							<p>
 								<b>Location: </b>
@@ -58,10 +70,20 @@ const Ad = () => {
 								{adData.price}
 							</p>
 							<p>Content: {adData.content}</p>
-							<p>Published: {adData.publishDate}</p>
+							<p>
+								Published: {format(adData.publishDate, 'dd.MM.yyyy HH:mm:ss')}
+								{/* {adData.publishDate} */}
+							</p>
 							<h5>Seller info</h5>
 
-							<p>Seller: {adData.user.login}</p>
+							<div className={styles.seller}>
+								<img
+									src={IMG_URL + adData.user.avatar}
+									alt="user avatar"
+									className="me-1"></img>
+								<p> {adData.user.login}</p>
+							</div>
+
 							<p>Phone number: {adData.user.phoneNumber}</p>
 
 							{loggedUser?.login === adData.user.login && (
