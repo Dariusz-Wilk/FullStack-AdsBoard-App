@@ -45,9 +45,6 @@ const Ad = () => {
 		});
 	};
 
-	console.log(adData);
-	console.log(loggedUser);
-
 	if (!adData) return <Navigate to={'/'} />;
 	return (
 		<div>
@@ -67,12 +64,14 @@ const Ad = () => {
 							</p>
 							<p>
 								<b>Price: </b>
-								{adData.price}
+								{adData.price}$
 							</p>
-							<p>Content: {adData.content}</p>
+							<p>
+								<b>Description:</b> <br />
+								<p className={styles.adDescribe}>{adData.content}</p>
+							</p>
 							<p>
 								Published: {format(adData.publishDate, 'dd.MM.yyyy HH:mm:ss')}
-								{/* {adData.publishDate} */}
 							</p>
 							<h5>Seller info</h5>
 

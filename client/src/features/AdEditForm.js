@@ -19,7 +19,6 @@ const AdEditForm = () => {
 	const dispatch = useDispatch();
 
 	const adData = useSelector(state => getAdById(state, id));
-	console.log('adData: ', adData);
 
 	const [title, setTitle] = useState(adData.title || '');
 	const [content, setContent] = useState(adData.content || '');
@@ -44,8 +43,6 @@ const AdEditForm = () => {
 		const options = {
 			method: 'PUT',
 			body: fd,
-
-			// credentials: 'include',
 		};
 
 		fetch(`${API_URL}/api/ads/${id}`, options)
