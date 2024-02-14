@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 let dbUri = '';
 
 if (process.env.NODE_ENV === 'production')
-	dbUri = `mongodb+srv://dariuszwilk1993:${process.env.DB_PASS}@cluster0.hbjumtc.mongodb.net/?retryWrites=true&w=majority`;
+	dbUri = `mongodb+srv://dariuszwilk1993:${process.env.DB_PASS}@cluster0.hbjumtc.mongodb.net/AdsBoardDB?retryWrites=true&w=majority`;
 else dbUri = 'mongodb://0.0.0.0:27017/adsBoardDB';
 
 const connectToDB = () => {
